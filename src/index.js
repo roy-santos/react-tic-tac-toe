@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM, { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import './index.css';
 
 function Square(props) {
@@ -58,20 +58,16 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    const squares = this.state.history
-      .slice(0, this.state.stepNumber + 1)
-      [
-        this.state.history.slice(0, this.state.stepNumber + 1).length - 1
-      ].squares.slice();
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
-      history: this.state.history
-        .slice(0, this.state.stepNumber + 1)
-        .concat([{ squares: squares }]),
-      stepNumber: this.state.history.slice(0, this.state.stepNumber + 1).length,
+      history: history.concat([{ squares: squares }]),
+      stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
   }
